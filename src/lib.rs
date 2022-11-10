@@ -20,7 +20,7 @@ mod dot_utils;
 mod generators;
 mod graph;
 mod graphml;
-mod isomorphism;
+pub mod isomorphism;
 mod iterators;
 mod json;
 mod layout;

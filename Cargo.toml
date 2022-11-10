@@ -10,13 +10,11 @@ keywords = ["python", "graph"]
 edition = "2021"
 
 [workspace]
-members = [
-    "rustworkx-core",
-]
+members = ["rustworkx-core"]
 
 [lib]
 name = "rustworkx"
-crate-type = ["cdylib"]
+crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 ahash = "0.8.0"
@@ -36,7 +34,7 @@ rustworkx-core = { path = "rustworkx-core", version = "=0.13.0" }
 
 [dependencies.pyo3]
 version = "0.17.3"
-features = ["extension-module", "hashbrown", "num-bigint", "num-complex", "indexmap"]
+features = ["hashbrown", "num-bigint", "num-complex", "indexmap"]
 
 [dependencies.hashbrown]
 version = "0.12"
