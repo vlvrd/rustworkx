@@ -12,7 +12,7 @@
 
 #![allow(clippy::too_many_arguments)]
 
-mod vf2;
+pub mod vf2;
 
 use crate::{digraph, graph};
 

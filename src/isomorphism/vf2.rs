@@ -1046,3 +1046,38 @@ macro_rules! vf2_mapping_impl {
 
 vf2_mapping_impl!(DiGraphVf2Mapping, Directed);
 vf2_mapping_impl!(GraphVf2Mapping, Undirected);
+
+pub struct Vf2Mapping {
+    vf2: Vf2Algorithm<Undirected, Option<PyObject>, Option<PyObject>>,
+}
+
+impl Vf2Mapping {
+    pub fn new(
+        g0: &petgraph::stable_graph::StableGraph<String, String, Undirected>,
+        g1: &petgraph::stable_graph::StableGraph<String, String, Undirected>,
+        node_match: Option<PyObject>,
+        edge_match: Option<PyObject>,
+        id_order: bool,
+        ordering: Ordering,
+        induced: bool,
+        call_limit: Option<usize>,
+    ) -> Self {
+        Python::with_gil(|py| -> Vf2Mapping {
+            let g0 = g0.map(|_, nw| nw.into_py(py), |_, ew| ew.into_py(py));
+            let g1 = g1.map(|_, nw| nw.into_py(py), |_, ew| ew.into_py(py));
+
+            let vf2 = Vf2Algorithm::new(
+                py, &g0, &g1, node_match, edge_match, id_order, ordering, induced, call_limit,
+            );
+            Vf2Mapping { vf2 }
+        })
+    }
+}
+
+impl Iterator for Vf2Mapping {
+    type Item = NodeMap;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        Python::with_gil(|py| self.vf2.next(py).ok()?)
+    }
+}
